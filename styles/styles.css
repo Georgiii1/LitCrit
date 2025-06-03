@@ -791,18 +791,26 @@ a {
 
 .dropdown-option {
   display: block;
+  width: 100%;
   padding: 6px 10px;
   color: var(--black);
-  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
   font-size: 15px;
   cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
 }
 
-.dropdown-option:hover {
+.dropdown-option:hover,
+.dropdown-option:focus {
   background-color: var(--main-bckgr-color);
+  outline: none;
 }
 
-.dots-menu:hover .dropdown-options {
+.dots-menu:hover .dropdown-options,
+.dots-menu:focus-within .dropdown-options {
   display: block;
 }
 
@@ -1581,19 +1589,34 @@ form .change-form-btn:hover {
 }
 
 /* Tooltips for non-logged users */
-.not-logged-in{
+.not-logged-in {
   filter: brightness(91%);
 }
 
-.custom-tooltip.warrning-tooltip{
-    --bs-tooltip-bg: var(--light-blue) !important;
-    --bs-tooltip-color: #ffffff;
-    max-width: 900px;
+.custom-tooltip.warrning-tooltip {
+  --bs-tooltip-bg: var(--light-blue) !important;
+  --bs-tooltip-color: #ffffff;
+  max-width: 900px;
 }
 
 .tooltip-inner {
-    font-size: 16px;
-    font-weight: 500;
-    text-align: center;
-    max-width: 700px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  max-width: 700px;
+}
+
+/* No suggestions */
+.no-suggestions {
+  margin-left: 10px;
+  font-size: 1.6rem;
+  margin-right: 10px;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .no-suggestions {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 1rem;
+  }
 }

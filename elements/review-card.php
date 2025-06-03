@@ -26,12 +26,15 @@
 
     <!-- LOAD THE MENU ONLY FOR THE USER'S REVIEWS -->
     <div class="menu">
-        <div class="dots-menu">
-            <button class="dots-button">&#x22EE;</button>
-            <div class="dropdown-options">
-                <a href="#" class="dropdown-option">Редактирай</a>
-                <a href="#" class="dropdown-option">Изтрий</a>
+        <form method="post" action="review-actions.php">
+            <input type="hidden" name="review_id" value="<?= $rev["bookReviewID"]; ?>">
+            <div class="dots-menu">
+                <button type="button" class="dots-button">&#x22EE;</button>
+                <div class="dropdown-options">
+                    <button type="submit" name="action" value="edit" class="dropdown-option">Редактирай</button>
+                    <button type="submit" name="action" value="delete" class="dropdown-option">Изтрий</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

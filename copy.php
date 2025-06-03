@@ -153,3 +153,22 @@
 </body>
 
 </html>
+
+
+elseif (isset($category) && $category == 'popular') {
+            $data = $connection->query("
+            SELECT b.*, g.bookGenre 
+            FROM Books b 
+            JOIN genre g ON b.bookGenre = g.genreID
+            ORDER BY b.rating DESC LIMIT 6")->fetchAll();
+        } elseif (isset($category) && $category == 'suggested') {
+            // For now, we will just use the same data as popular
+            $data = $connection->query("
+            SELECT b.*, g.bookGenre 
+            FROM Books b 
+            JOIN genre g ON b.bookGenre = g.genreID
+            ORDER BY b.rating DESC LIMIT 6")->fetchAll();
+        } else {
+            // Default case if no category is set
+            $data = [];
+        }
