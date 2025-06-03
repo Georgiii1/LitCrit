@@ -1,0 +1,80 @@
+[2025-05-08 11:02:41] Full API response: Array
+(
+    [id] => 344ff5c9-8a7a-4188-8f21-ca7fa40fb90a
+    [object] => chat.completion
+    [created] => 1746694957
+    [model] => deepseek-chat
+    [choices] => Array
+        (
+            [0] => Array
+                (
+                    [index] => 0
+                    [message] => Array
+                        (
+                            [role] => assistant
+                            [content] => APPROVE
+                        )
+
+                    [logprobs] => 
+                    [finish_reason] => stop
+                )
+
+        )
+
+    [usage] => Array
+        (
+            [prompt_tokens] => 45
+            [completion_tokens] => 3
+            [total_tokens] => 48
+            [prompt_tokens_details] => Array
+                (
+                    [cached_tokens] => 0
+                )
+
+            [prompt_cache_hit_tokens] => 0
+            [prompt_cache_miss_tokens] => 45
+        )
+
+    [system_fingerprint] => fp_8802369eaa_prod0425fp8
+)
+
+[2025-05-08 11:02:46] Full API response: Array
+(
+    [id] => de972799-929f-478b-8d9d-d86f0d64bc5a
+    [object] => chat.completion
+    [created] => 1746694961
+    [model] => deepseek-chat
+    [choices] => Array
+        (
+            [0] => Array
+                (
+                    [index] => 0
+                    [message] => Array
+                        (
+                            [role] => assistant
+                            [content] => DECLINE
+                        )
+
+                    [logprobs] => 
+                    [finish_reason] => stop
+                )
+
+        )
+
+    [usage] => Array
+        (
+            [prompt_tokens] => 42
+            [completion_tokens] => 2
+            [total_tokens] => 44
+            [prompt_tokens_details] => Array
+                (
+                    [cached_tokens] => 0
+                )
+
+            [prompt_cache_hit_tokens] => 0
+            [prompt_cache_miss_tokens] => 42
+        )
+
+    [system_fingerprint] => fp_8802369eaa_prod0425fp8
+)
+
