@@ -1,7 +1,7 @@
 <?php   
 define('ADMIN_URL', 'http://localhost/litCrit/admin-control/');
 define('WEBSITE_URL', 'http://localhost/litCrit/');
-define('PATH', '/Applications/XAMPP/xamppfiles/htdocs/LitCrit/');
+define('PATH', 'C:/xampp/htdocs/LitCrit/');
 define('IMAGES_PATH', PATH . 'images/usersPfp/');
 
 
