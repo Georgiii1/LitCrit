@@ -53,8 +53,16 @@ include("./admin-control/includes.php");
             JOIN genre g ON b.bookGenre = g.genreID
             ORDER BY b.dateAdded DESC")->fetchAll();
         } elseif (isset($category) && $category == 'suggested') {
+
+            
+            
             $favGenres = array_map('trim', explode(',', $_SESSION['user']['favouriteGenre']));
-            if (count($favGenres) > 0) {
+            
+
+            
+            if ( isset( $_SESSION['user']['favouriteGenre'] ) && strlen( $_SESSION['user']['favouriteGenre'] ) >0 &&   count($favGenres) > 0) { //if > 0
+                print_r($favGenres); echo "<br>";
+                echo "###";
                 $placeholders = implode(',', array_fill(0, count($favGenres), '?'));
                 $stmt = $connection->prepare("SELECT b.*, g.bookGenre 
                     FROM Books b 
@@ -63,17 +71,13 @@ include("./admin-control/includes.php");
                 $stmt->execute($favGenres);
                 $data = $stmt->fetchAll();
             } else {
-                $data = $connection->query("SELECT b.*, g.bookGenre 
-                FROM Books b 
-                JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
-            }
-            $data = $connection->query("
-            SELECT b.*, g.bookGenre 
-            FROM Books b 
-            JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
 
-            echo "<h3 class='no-suggestions'>Няма книги съвпадащи с вашите интереси, или все още не сте избрали предпочитани жанрове в профила си!</h3>";
-        }   elseif (isset($category) && $category == 'popular') {
+                echo "<h3 class='no-suggestions'>Няма книги съвпадащи с вашите интереси, или все още не сте избрали предпочитани жанрове в профила си!</h3>";
+                $data = $connection->query("SELECT b.*, g.bookGenre 
+            FROM Books b 
+            JOIN genre g ON b.bookGenre = g.genreID ")->fetchAll();
+            }
+        } elseif (isset($category) && $category == 'popular') {
             // Add rating field to the DB after star rating is working, then order by rating !!!!!!!!!!
             $data = $connection->query("
             SELECT b.*, g.bookGenre 

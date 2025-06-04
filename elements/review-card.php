@@ -18,7 +18,17 @@
         </div>
         </p>
 
-        <a href="book-details.php?id=<?= $rev["bookReviewID"];?>" class="btn open-review-btn">Отвори</a> <!-- LOAD ONLY ON "MY REVIEWS" -->
+        <!-- LOAD ONLY ON "MY REVIEWS" -->
+        <?php
+        if (
+            strpos($_SERVER['REQUEST_URI'], "/LitCrit/my-reviews.php") !== false ||
+            strpos($_SERVER['REQUEST_URI'], "/LitCrit/account.php") !== false
+        ) {
+            $id = (int) $rev["ReviewID"];
+            echo "<a href='book-details.php?id=" . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . "' class='btn open-review-btn'>Отвори</a>";
+        }
+        ?>
+        
     </div>
 
 
@@ -26,15 +36,9 @@
 
     <!-- LOAD THE MENU ONLY FOR THE USER'S REVIEWS -->
     <div class="menu">
-        <form method="post" action="review-actions.php">
-            <input type="hidden" name="review_id" value="<?= $rev["bookReviewID"]; ?>">
-            <div class="dots-menu">
-                <button type="button" class="dots-button">&#x22EE;</button>
-                <div class="dropdown-options">
-                    <button type="submit" name="action" value="edit" class="dropdown-option">Редактирай</button>
-                    <button type="submit" name="action" value="delete" class="dropdown-option">Изтрий</button>
-                </div>
-            </div>
-        </form>
+        <?php
+        if ($rev['userID'] == $_SESSION['user']['userID']) {
+            include("review-actions.php");
+        } ?>
     </div>
 </div>

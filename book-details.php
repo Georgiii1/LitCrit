@@ -135,7 +135,7 @@
                 <div class="reviews-container">
                     <?php
 
-                    $stmt = $connection->prepare("SELECT r.*, u.username FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.bookReviewID = ? AND r.status = 'approved'");
+                    $stmt = $connection->prepare("SELECT r.*, u.username FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.bookReviewID = ? AND r.status = 'approved' order by r.dateAdded DESC");
                     $stmt->execute([$bookID]);
                     $reviews = $stmt->fetchAll();
                 
