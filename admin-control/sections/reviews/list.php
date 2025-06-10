@@ -1,4 +1,11 @@
-<?php include("../../includes.php"); ?>
+<?php
+include("../../includes.php");
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION['user']['role'] != 'admin') {
+    echo "<script>alert('Нямате достъп до съдържанието на страницата!'); window.location.href = '../../index.php';</script>";
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

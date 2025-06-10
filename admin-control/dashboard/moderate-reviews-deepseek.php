@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION['user']['role'] != 'admin') {
+    echo "<script>alert('Нямате достъп до съдържанието на страницата!'); window.location.href = '../../index.php';</script>";
+    exit;
+}
 require '../../vendor/autoload.php';
 use GuzzleHttp\Client;
 
