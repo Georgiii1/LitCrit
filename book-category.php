@@ -61,8 +61,7 @@ include("./admin-control/includes.php");
 
             
             if ( isset( $_SESSION['user']['favouriteGenre'] ) && strlen( $_SESSION['user']['favouriteGenre'] ) >0 &&   count($favGenres) > 0) { //if > 0
-                print_r($favGenres); echo "<br>";
-                echo "###";
+
                 $placeholders = implode(',', array_fill(0, count($favGenres), '?'));
                 $stmt = $connection->prepare("SELECT b.*, g.bookGenre 
                     FROM Books b 

@@ -20,24 +20,22 @@
 
         <!-- LOAD ONLY ON "MY REVIEWS" -->
         <?php
-        if (
-            strpos($_SERVER['REQUEST_URI'], "/LitCrit/my-reviews.php") !== false ||
-            strpos($_SERVER['REQUEST_URI'], "/LitCrit/account.php") !== false
-        ) {
-            $id = (int) $rev["ReviewID"];
+        $UIRL_REV = strpos($_SERVER['REQUEST_URI'], "/LitCrit/my-reviews.php");
+        $UIRL_ACC = strpos($_SERVER['REQUEST_URI'], "/LitCrit/account.php");
+        if ($UIRL_REV !== false || $UIRL_ACC !== false) {
+            $id = (int) $rev["reviewID"];
             echo "<a href='book-details.php?id=" . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . "' class='btn open-review-btn'>Отвори</a>";
         }
         ?>
-        
+
     </div>
-
-
 
 
     <!-- LOAD THE MENU ONLY FOR THE USER'S REVIEWS -->
     <div class="menu">
         <?php
-        if ($rev['userID'] == $_SESSION['user']['userID']) {
+        $uID = $_SESSION['user']['userID'] ?? null;
+        if ($rev['userID'] == $uID) {
             include("review-actions.php");
         } ?>
     </div>
