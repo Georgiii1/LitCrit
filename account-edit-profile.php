@@ -16,13 +16,13 @@ if (!$user) {
 }
 
 if (isset($_POST['save'])) {
-    $username = $_POST['name'];
-    $email = $_POST['email'];
-    $oldPass = $_POST['old-pass'];
-    $newPass = $_POST['new-pass'];
-    $confirmPass = $_POST['confirm-pass'];
+    $username = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $oldPass = htmlspecialchars($_POST['old-pass'], ENT_QUOTES, 'UTF-8');
+    $newPass = htmlspecialchars($_POST['new-pass'], ENT_QUOTES, 'UTF-8');
+    $confirmPass = htmlspecialchars($_POST['confirm-pass'], ENT_QUOTES, 'UTF-8');
     $newPfp = $_FILES['newPfp'];
-    $selectedGenres = $_POST['selectedGenres']; // Get selected genres
+    $selectedGenres = htmlspecialchars($_POST['selectedGenres'], ENT_QUOTES, 'UTF-8');
 
 
     if ($newPfp['name']) {
@@ -70,6 +70,19 @@ if (isset($_POST['save'])) {
         }
     }
 
+    function displayErrors($errorsArray)
+    {
+        ?>
+        <div class="error-messages">
+            <ul>
+                <?php foreach ($errorsArray as $error): ?>
+                    <li><?= htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php
+    }
+
     if (empty($errorsArray)) {
         $updateStmt = $connection->prepare("UPDATE User SET username = ?, email = ?, passwordHashed = ?, profilePicture = ?, favouriteGenre = ? WHERE userID = ?");
         $updateStmt->execute([$username, $email, $finalPasswordHash, $newPfpName, $selectedGenres, $userId]);
@@ -82,6 +95,7 @@ if (isset($_POST['save'])) {
         echo "<script>alert('Промените са запазени успешно!'); window.location.href='account.php';</script>";
         exit();
     }
+
 }
 
 
@@ -97,15 +111,30 @@ if (isset($_POST['save'])) {
 </head>
 
 <body>
+    <style>
+        .error-messages {
+            background: #ffeaea;
+            border: 1px solid #ff5c5c;
+            color: #b30000;
+            padding: 16px 24px;
+            margin: 24px auto;
+            border-radius: 8px;
+            max-width: 600px;
+            font-size: 1.1em;
+            box-shadow: 0 2px 8px rgba(255, 92, 92, 0.08);
+            z-index: 20000;
+        }
 
-    <?php
-    // include(PATH . 'elements/popup.html');
-    // $message = implode("<br>", $errorsArray);
-    // echo "<script>showPopup(" . json_encode("Невалидна текуща парола!") . ", " . json_encode("Моля, опитайте отново.") . ");</script>";
+        .error-messages ul {
+            margin: 0;
+            padding-left: 20px;
+        }
 
-    ?>
-
-
+        .error-messages li {
+            margin-bottom: 6px;
+            list-style: disc inside;
+        }
+    </style>
     <div class="container-fluid">
         <?php include("./elements/header.php") ?>
 
@@ -143,7 +172,6 @@ if (isset($_POST['save'])) {
                                     <input class="user-edit-input" type="password" name="confirm-pass"
                                         placeholder="Въвеждане..."><br><br>
                                 </div>
-
                             </div>
 
                             <!-- Add hidden field -->
@@ -154,7 +182,7 @@ if (isset($_POST['save'])) {
                                         $stmt = $connection->prepare("SELECT * FROM Genre");
                                         $stmt->execute();
                                         $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                        
+
 
 
                                         $userFavouriteGenres = explode(',', $user['favouriteGenre']);
@@ -169,7 +197,8 @@ if (isset($_POST['save'])) {
                                     }
                                     ?>
                                 </div>
-                                <input type="hidden" name="selectedGenres" id="selectedGenres" value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
+                                <input type="hidden" name="selectedGenres" id="selectedGenres"
+                                    value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
                             </div>
 
 
@@ -188,6 +217,12 @@ if (isset($_POST['save'])) {
                                         src="images/usersPfp/<?= $user['profilePicture'] ?>" alt="Профилна снимка">
                                 </label>
                             </div>
+
+                            <?php
+                                    if (!empty($errorsArray)){
+                                        displayErrors($errorsArray);
+                                    }
+                                ?>
 
 
                             <div class="edit-btn-container edit-btns-big">

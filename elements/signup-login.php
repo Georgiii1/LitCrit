@@ -1,10 +1,36 @@
 <?php
 if (isset($_POST['signUp'])) {
+    $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars(trim($_POST['email']), ENT_QUOTES, 'UTF-8');
+    $passwordRaw = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+    $passwordTwoRaw = htmlspecialchars($_POST['password-2'], ENT_QUOTES, 'UTF-8');
 
-    // записване на данните от полетата в променливи за по-удобно
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    if (!preg_match('/^[a-zA-Z0-9_-]{3,}$/', $username)) {
+        echo "<script>alert('Invalid username format! Username can include letters, digits, underscores, and hyphens, and must be at least 3 characters.'); window.history.back();</script>";
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Invalid email!'); window.history.back();</script>";
+        exit;
+    }
+
+    if (empty($passwordRaw) || empty($passwordTwoRaw)) {
+        echo "<script>alert('Password fields cannot be empty!'); window.history.back();</script>";
+        exit;
+    }
+
+    if ($passwordRaw !== $passwordTwoRaw) {
+        echo "<script>alert('Passwords do not match!'); window.history.back();</script>";
+        exit;
+    }
+
+    if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};\'\\:"|,.<>\/?]{8,}$/', $passwordRaw)) {
+        echo "<script>alert('Password must be at least 8 characters long and include at least one letter and one number.'); window.history.back();</script>";
+        exit;
+    }
+
+    $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
 
     // зареждаме качената снимка, ако има такава
     $profilePic = isset($_FILES['profilePicture']) ? $_FILES['profilePicture'] : null;
@@ -36,7 +62,7 @@ if (isset($_POST['signUp'])) {
 
     try {
         $sth->execute([$username, $email, $password, $finalPic]);
-        echo "Профилът беше създаден успешно!";
+        echo "<script>alert('Профилът беше създаден успешно!');</script>";
     } catch (PDOException $e) {
         echo "Грешка при създаване на профила: " . $e->getMessage();
     }
@@ -47,12 +73,16 @@ if (isset($_POST['logIn'])) {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
+    if (!preg_match('/^[a-zA-Z0-9_-]{3,}$/', $username)) {
+        echo "<script> alert('Invalid username format!'); </scrpit>";
+    }
+
     $stmt = $connection->prepare("SELECT * FROM User WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user["passwordHashed"])) {
-        $_SESSION['user'] = $user; 
+        $_SESSION['user'] = $user;
         header("Location: account.php");
         exit();
     } else {
@@ -95,7 +125,7 @@ if (isset($_POST['logIn'])) {
 
             <div class="form-group">
                 <label for="password-2">Потвърждение на парола:</label>
-                <input type="password" id="password-2" name="password" placeholder="Въвеждане..">
+                <input type="password" id="password-2" name="password-2" placeholder="Въвеждане..">
             </div>
 
             <button type="submit" name="signUp" class="btn-forms">Регистрация</button>

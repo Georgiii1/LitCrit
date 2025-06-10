@@ -13,27 +13,31 @@
 <?php
 include("./elements/header.php");
 if (isset($_POST['submit'])) {
-
     $user = $_SESSION['user']['userID'];
-    // $userId = $_SESSION['user']['userID'];
-
 
     if (!$user) {
-        echo "<script>alert('User not found');</script>";
-        exit();
+        echo "<script>alert('No user is logged in!'); window.history.back();</script>";
+        exit;
     }
 
-    // записване на данните от полетата в променливи за по-удобно
+    // Sanitize input
+    $bookTitle = htmlspecialchars(trim($_POST['bookTitle']), ENT_QUOTES, 'UTF-8');
+    $bookAuthor = htmlspecialchars(trim($_POST['bookAuthor']), ENT_QUOTES, 'UTF-8');
+    $yearOfPublishing = filter_var($_POST['yearOfPublishing'], FILTER_SANITIZE_NUMBER_INT);
+    $bookGenre = htmlspecialchars(trim($_POST['bookGenre']), ENT_QUOTES, 'UTF-8');
+    $bookAnnotation = htmlspecialchars(trim($_POST['bookAnnotation']), ENT_QUOTES, 'UTF-8');
 
-    $bookTitle = $_POST['bookTitle'];
-    $bookAuthor = $_POST['bookAuthor'];
-    $yearOfPublishing = $_POST['yearOfPublishing'];
-    $bookGenre = $_POST['bookGenre'];
-    $bookAnnotation = $_POST['bookAnnotation'];
+    // Check if book already exists
+    $checkSql = "SELECT 1 FROM Books WHERE bookTitle = ? AND bookAuthor = ? AND bookGenre = ?";
+    $checkStmt = $connection->prepare($checkSql);
+    $checkStmt->execute([$bookTitle, $bookAuthor, $bookGenre]);
+    if ($checkStmt->fetch()) {
+        echo "<script>alert('Тази книга вече съществува!'); window.history.back();</script>";
+        exit;
+    }
 
-    // Image validation
     $file = $_FILES['bookCover'];
-    $file_name = $_FILES['bookCover']['name'];
+    $file_name = basename($_FILES['bookCover']['name']);
     $file_temp = $_FILES['bookCover']['tmp_name'];
     $file_type = $_FILES['bookCover']['type'];
 
@@ -76,17 +80,24 @@ if (isset($_POST['submit'])) {
 
         // INSERT заявка към базата, с която се записват полетата
 
-        $sql = "INSERT INTO Books ( bookTitle, bookAuthor, yearOfPublishing, bookGenre, bookAnnotation, bookCover, dateAdded, userID) VALUES (?,?,?,?,?,?, CURRENT_TIMESTAMP, ?)";
+        $sql = "INSERT INTO Books (bookTitle, bookAuthor, yearOfPublishing, bookGenre, bookAnnotation, bookCover, dateAdded, userID) VALUES (?,?,?,?,?,?, CURRENT_TIMESTAMP, ?)";
 
         $sth = $connection->prepare($sql);
 
         try {
-            $sth->execute([$bookTitle, $bookAuthor, $yearOfPublishing, $genreID, $bookAnnotation, $target_file, $userId]);
-            echo "Книгата е добавена успешно!";
+            $sth->execute([
+                $bookTitle,
+                $bookAuthor,
+                $yearOfPublishing,
+                $genreID,
+                $bookAnnotation,
+                $target_file,
+                $userId
+            ]);
+            echo "<script>alert('Книгата е добавена успешно!');</script>";
         } catch (PDOException $e) {
-            echo "Грешка при добавяне на книгата: " . $e->getMessage();
+            echo "Грешка при добавяне на книгата: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         }
-
     }
 }
 
@@ -112,7 +123,7 @@ if (isset($_POST['submit'])) {
                             <input name="bookCover" type="file" id="file-input" accept="image/*" class="file-input"
                                 style="display: none;">
                             <img id="cover-preview" src="" alt="cover" class="img-fluid cover-2">
-                            
+
                         </div>
                     </div>
 
@@ -272,6 +283,7 @@ if (isset($_POST['submit'])) {
             const popup = document.getElementById('bookPopup');
             popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
         }
+
     </script>
     </div>
 

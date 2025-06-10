@@ -54,7 +54,7 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
     <form id="searchForm" method="POST" autocomplete="off">
       <div style="position:absolute;">
         <button class="search-btn" type="submit" style="position:relative; left:-32px; top:8px;">
-          <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #d45414;"></i>
+          <i class="fa-solid fa-magnifying-glass fa-xl" style="color:#d45414;"></i>
         </button>
       </div>
       <input class="search-input" id="searchInput" name="search" type="text" autocomplete="off" placeholder="Търсене..">

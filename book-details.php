@@ -34,21 +34,21 @@
 
                 <!-- Left: Book Cover -->
                 <div class="col-4 cover-details">
-                    <img src="<?= $book["bookCover"]; ?>" alt="cover" class="img-fluid details-cover-img">
+                    <img src="<?= htmlspecialchars($book["bookCover"], ENT_QUOTES, 'UTF-8'); ?>" alt="cover" class="img-fluid details-cover-img">
                 </div>
 
                 <div class="col-1 empty-col"></div>
 
                 <!-- Right: Text Details -->
                 <div class="col-7 text-details">
-                    <h2 class="title-detail"><?= $book["bookTitle"]; ?></h2>
+                    <h2 class="title-detail"><?= htmlspecialchars($book["bookTitle"], ENT_QUOTES, 'UTF-8'); ?></h2>
                     <br>
-                    <p class="other-detail"><strong class="detail-title">Автор: </strong><?= $book["bookAuthor"]; ?></p>
+                    <p class="other-detail"><strong class="detail-title">Автор: </strong><?= htmlspecialchars($book["bookAuthor"], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p class="other-detail"><strong class="detail-title">Година:
-                        </strong><?= $book["yearOfPublishing"]; ?></p>
-                    <p class="other-detail"><strong class="detail-title">Жанр: </strong><?= $book["bookGenre"]; ?></p>
+                        </strong><?= htmlspecialchars($book["yearOfPublishing"], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p class="other-detail"><strong class="detail-title">Жанр: </strong><?= htmlspecialchars($book["bookGenre"], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p class="other-detail"><strong class="detail-title">Анотация: </strong>
-                        <?= $book["bookAnnotation"]; ?></p>
+                        <?= htmlspecialchars($book["bookAnnotation"], ENT_QUOTES, 'UTF-8'); ?></p>
 
                     <p class="other-detail">
                     <div class="rating">
