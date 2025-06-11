@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" enctype="multipart/form-data">
             <div class="book-container">
                 <div class="book-cover" id="coverContainer">
-                    <img id="coverPreview" src="<?= WEBSITE_URL . htmlspecialchars($book['bookCover']) ?>" alt="Book Cover">
+                    <img id="coverPreview" src="<?= COVERS_PATH . htmlspecialchars($book['bookCover']) ?>" alt="Book Cover">
                     <div class="overlay">Натиснете, за да промените</div>
                     <input type="file" id="coverInput" name="cover" accept="image/*">
                 </div>
@@ -245,27 +245,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="number" name="year" value="<?= htmlspecialchars($book['yearOfPublishing']) ?>" required>
 
                     <label>Жанр:</label>
-
-
-                    <?php 
-                    // $genresStmt = $connection->prepare("SELECT genreID, bookGenre FROM genre");
-                    // $genresStmt->execute();
-                    // $genres = $genresStmt->fetchAll();
-
-                    // // echo "<pre>";
-                    // // print_r($genres);
-                    // // print_r( $book );
-                    // // exit;
-
-                    // foreach ($genres as $g) {
-                    //     $selected = $g['genreID'] == $book['genreID'] ? 'selected' : '';
-                    //     echo "<option value='{$g['genreID']}' $selected>" . htmlspecialchars($g['bookGenre']) . "</option>";
-                    //     print($g);
-                    // }
-
-                    
-                    
-                    ?>
 
 
                     <select name="genre" required>

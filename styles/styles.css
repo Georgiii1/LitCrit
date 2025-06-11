@@ -1546,7 +1546,6 @@ form .change-form-btn:hover {
   color: #555;
 }
 
-/* Minimal styles for search results */
 #searchResults.search-results-container {
   position: absolute;
   background: #fff;
@@ -1586,6 +1585,21 @@ form .change-form-btn:hover {
   padding: 10px;
   color: #888;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .search-results-container {
+    position: absolute;
+    background: #ffffff;
+    z-index: 9999;
+    width: 100%;
+    max-width: 465px;
+    max-height: 460px;
+    overflow-y: scroll;
+    border: 1px solid #eee;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
 }
 
 /* Tooltips for non-logged users */

@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "litCrit";
+$database = "LitCrit2";
 
 session_start();
 

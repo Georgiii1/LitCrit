@@ -34,7 +34,8 @@
 
                 <!-- Left: Book Cover -->
                 <div class="col-4 cover-details">
-                    <img src="<?= htmlspecialchars($book["bookCover"], ENT_QUOTES, 'UTF-8'); ?>" alt="cover" class="img-fluid details-cover-img">
+                    <img src="<?= htmlspecialchars($book["bookCover"], ENT_QUOTES, 'UTF-8'); ?>" alt="cover"
+                        class="img-fluid details-cover-img">
                 </div>
 
                 <div class="col-1 empty-col"></div>
@@ -43,10 +44,12 @@
                 <div class="col-7 text-details">
                     <h2 class="title-detail"><?= htmlspecialchars($book["bookTitle"], ENT_QUOTES, 'UTF-8'); ?></h2>
                     <br>
-                    <p class="other-detail"><strong class="detail-title">Автор: </strong><?= htmlspecialchars($book["bookAuthor"], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p class="other-detail"><strong class="detail-title">Автор:
+                        </strong><?= htmlspecialchars($book["bookAuthor"], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p class="other-detail"><strong class="detail-title">Година:
                         </strong><?= htmlspecialchars($book["yearOfPublishing"], ENT_QUOTES, 'UTF-8'); ?></p>
-                    <p class="other-detail"><strong class="detail-title">Жанр: </strong><?= htmlspecialchars($book["bookGenre"], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p class="other-detail"><strong class="detail-title">Жанр:
+                        </strong><?= htmlspecialchars($book["bookGenre"], ENT_QUOTES, 'UTF-8'); ?></p>
                     <p class="other-detail"><strong class="detail-title">Анотация: </strong>
                         <?= htmlspecialchars($book["bookAnnotation"], ENT_QUOTES, 'UTF-8'); ?></p>
 
@@ -84,46 +87,67 @@
 
         ?>
 
-        <div class="tooltip" id="tooltip-template" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>
+        <div class="tooltip" id="tooltip-template" role="tooltip">
+            <div class="arrow"></div>
+            <div class="tooltip-inner"></div>
+        </div>
 
+        <?php
+        // print_r($book['status']);
+        if ($book['status'] == 'approved') {
+            ?>
+            <form method="POST" action="" <?php if (!isset($_SESSION['user'])) { ?> onsubmit="return false;" <?php } ?>>
+                <div class="container-rev-input">
+                    <div
+                        class="card review-card input-review <?php if (!isset($_SESSION['user'])) {
+                            echo "not-logged-in";
+                        } ?>">
+                        <?php ?>
+                        <div class="card-header info">
+                            <p><strong class="rev-card-data">Потребителско име: </strong>
+                                <?= $username = isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : "Гост" ?>
+                            </p>
+                            <p><strong class="rev-card-data">Дата: </strong><?php echo date('d-m-Y'); ?></p>
+                        </div>
 
-        <form method="POST" action="" <?php if (!isset( $_SESSION['user'] ) ) { ?> onsubmit="return false;" <?php } ?>>
-            <div class="container-rev-input">
-                <div class="card review-card input-review <?php if (!isset( $_SESSION['user'] ) ) { echo "not-logged-in"; } ?>">
-                    <?php ?>
-                    <div class="card-header info">
-                        <p><strong class="rev-card-data">Потребителско име: </strong>
-                            <?= $username = isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : "Гост" ?>
-                        </p>
-                        <p><strong class="rev-card-data">Дата: </strong><?php echo date('d-m-Y'); ?></p>
-                    </div>
+                        <div class="card-body">
 
-                    <div class="card-body">
-
-                        <p class="rating">
+                            <p class="rating">
 
                             <div class="rating rev-rating">
-                            <h5 class="rating-txt rev-card-data rating-rev"> <strong>Оценка:</strong> </h5>
-                            <div class="stars-landing" id="stars-box" style="--rating: 3;">⭐⭐⭐⭐⭐</div>
-                        </div>
+                                <h5 class="rating-txt rev-card-data rating-rev"> <strong>Оценка:</strong> </h5>
+                                <div class="stars-landing" id="stars-box" style="--rating: 3;">⭐⭐⭐⭐⭐</div>
+                            </div>
 
                             <?php
                             //include("./elements/rating/index.html");
                             ?>
 
-                        </p>
+                            </p>
 
-                        <div class="form-group">
-                            <label for="review-text" class="rev-card-data">Отзив:</label>
-                            <textarea name="review" class="form-control text-input" id="review-text" rows="4"
-                                placeholder="Въвеждане.." <?php if (!isset($_SESSION['user'])) echo $tooltip; ?> required></textarea>
+                            <div class="form-group">
+                                <label for="review-text" class="rev-card-data">Отзив:</label>
+                                <textarea name="review" class="form-control text-input" id="review-text" rows="4"
+                                    placeholder="Въвеждане.." <?php if (!isset($_SESSION['user']))
+                                        echo $tooltip; ?>
+                                    required></textarea>
+                            </div>
+
+                            <button type="submit" name="submit" class="btn open-review-btn" <?php if (!isset($_SESSION['user']))
+                                echo $tooltip; ?>>Публикувай</button>
                         </div>
-
-                        <button type="submit" name="submit" class="btn open-review-btn" <?php if (!isset($_SESSION['user'])) echo $tooltip; ?>  >Публикувай</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+            <?php
+
+        }
+
+        ?>
+
+
+
+
 
 
         <!-- Section : Reviews -->
@@ -138,14 +162,14 @@
                     $stmt = $connection->prepare("SELECT r.*, u.username FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.bookReviewID = ? AND r.status = 'approved' order by r.dateAdded DESC");
                     $stmt->execute([$bookID]);
                     $reviews = $stmt->fetchAll();
-                
+
                     foreach ($reviews as $rev) {
                         ?>
                         <!-- review -->
                         <?php include("./elements/review-card.php") ?>
                     <?php } ?>
-                    <?php 
-                    if(empty($reviews)){
+                    <?php
+                    if (empty($reviews)) {
                         echo "<h3 style='text-align: center;'>Все още няма отзиви за тази книга.</h3>";
                     }
                     ?>

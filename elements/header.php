@@ -80,7 +80,7 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
       </div>
     </div>
 
-    
+
 
     <div class="dropdown-genres">
       <button class="dropbtn"><i class="fa-solid fa-book-open fa-rotate-by fa-xl"
@@ -125,7 +125,7 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
     <div class="container-fluid fluidcustom2">
 
       <div class="col-xl-3 col-lg-3 navcustom">
-        <img class="header2-logo" src="pictures/logo.png" alt="logo">
+        <a href="./index.php"><img class="header2-logo" src="pictures/logo.png" alt="logo"></a>
 
         <div class="navbar-toggler-button" id="mobilebtn">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -136,9 +136,11 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
         </div>
 
       </div>
-
-
-
+      <?php
+      $stmt = $connection->prepare("select * from genre");
+      $stmt->execute();
+      $genres = $stmt->fetchAll();
+      ?>
       <div class="collapse navbar-collapse collapse2" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
@@ -147,13 +149,20 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
               Жанрове
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="book-genres.php">Романи</a></li>
+              <?php foreach ($genres as $genre): ?>
+                <li>
+                  <a class="dropdown-item" href="book-genres.php?genreID=<?= $genre["genreID"]; ?>">
+                    <?= $genre["bookGenre"]; ?>
+                  </a>
+                </li>
+              <?php endforeach; ?>
             </ul>
           </li>
 
 
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="add-book.php">Добавете книга</a>
+            <a class="nav-link active" aria-current="page" href="add-book.php" <?php if (!$user) { ?>
+                onclick="togglePopup(); return false;" <?php } ?>>Добавете книга</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -163,24 +172,95 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
 
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="index.php">Начало</a></li>
-              <li><a class="dropdown-item" href="my-reviews.php" onclick="togglePopup()">Моите отзиви</a></li>
+              <li><a class="dropdown-item" href="my-reviews.php" <?php if (!isset($_SESSION['user'])) { ?>onclick="togglePopup(); return false;" <?php } ?>>Моите
+                  отзиви</a></li>
               <!-- togglePopup if the user is not logged in and don't open page-->
-              <li><a class="dropdown-item" href="my-books.php" onclick="togglePopup()">Моите книги</a></li>
+              <li><a class="dropdown-item" href="my-books.php" <?php if (!isset($_SESSION['user'])) { ?>onclick="togglePopup(); return false;" <?php } ?>>Моите
+                  книги</a></li>
               <!-- togglePopup if the user is not logged in and don't open page-->
-              <li><a class="dropdown-item" href="account.php" onclick="togglePopup()">Профил</a></li>
+              <li><a class="dropdown-item" href="account.php" <?php if (!isset($_SESSION['user'])) { ?>onclick="togglePopup(); return false;" <?php } ?>>Профил</a></li>
               <!-- togglePopup if the user is not logged in and don't open page-->
+              <li>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') { ?>
+                  <a class="dropdown-item" href="./admin-control/dashboard/index.php">Admin</a>
+                <?php } ?>
+              </li>
             </ul>
           </li>
 
         </ul>
 
 
-        <form class="d-flex" role="search">
-          <div style="position:absolute;"><button class="search-btn" type="submit"
-              style="position:relative; left:-5px; top: 8px;"><i class="fa-solid fa-magnifying-glass fa-xl"
-                style="color: #d45414;"></i></button></div>
-          <input class="search-input" type="text" placeholder="Търсене..." autocomplete="off" style="margin-left: 29px;">
+        <form class="d-flex" id="navbarSearchForm" role="search" method="POST" autocomplete="off"
+          style="position:relative;">
+          <div style="position:absolute;">
+            <button class="search-btn" type="submit" style="position:relative; left:-5px; top: 8px;">
+              <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #d45414;"></i>
+            </button>
+          </div>
+          <input class="search-input" id="navbarSearchInput" name="search" type="text" placeholder="Търсене..."
+            autocomplete="off" style="margin-left: 29px;">
+          <div id="navbarSearchResults" class="search-results-container"
+            style="display:none; position:absolute; top:40px; left:0; z-index:9999; width:100%;"></div>
         </form>
+        <script>
+          var X = false;
+          function setupSearchBar(inputSelector, resultsSelector, formSelector) {
+            const $input = $(inputSelector);
+            const $results = $(resultsSelector);
+            const $form = $(formSelector);
+
+            function renderResults(data) {
+              $results.empty().append('<div class="search-section-title">Книги</div>');
+              if (data.success && data.books.length) {
+                data.books.forEach(book => {
+                  $results.append(`
+                    <div class="search-result-item" data-id="${book.bookID}">
+                      <img src="${book.bookCover}" alt="${book.bookTitle}" class="book-image">
+                      <div class="book-info">
+                        <a href="book-details.php?id=${book.bookID}" class="book-title">${book.bookTitle}</a>
+                        <p class="book-author">от ${book.bookAuthor}</p>
+                      </div>
+                    </div>
+                  `);
+                });
+              } else {
+                $results.append('<div class="no-results">Няма книги съвпадащи с вашето търсене.</div>');
+              }
+              $results.show();
+            }
+
+            $input.on('input', function () {
+              if (!X) {
+                setTimeout(() => {
+                  X = false;
+                  const query = $input.val().trim();
+                  if (query.length < 2) return $results.hide().empty();
+                  $.get('elements/get_search_results.php', { q: query }, renderResults, 'json');
+                }, 2000);
+              }
+
+            });
+
+            $results.on('mousedown', '.search-result-item', function () {
+              window.location = 'book-details.php?id=' + $(this).data('id');
+            });
+
+            $(document).on('mousedown', function (e) {
+              if (!$(e.target).closest(formSelector).length) $results.hide();
+            });
+
+            $form.on('submit', function (e) {
+              e.preventDefault();
+              $input.trigger('input');
+            });
+          }
+
+          $(function () {
+            setupSearchBar('#searchInput', '#searchResults', '#searchForm');
+            setupSearchBar('#navbarSearchInput', '#navbarSearchResults', '#navbarSearchForm');
+          });
+        </script>
 
       </div>
     </div>
@@ -223,65 +303,3 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
   </script>
 
 </div>
-
-<script>
-  var X = false;
-  $(function () {
-    const $input = $('#searchInput');
-    const $results = $('#searchResults');
-    const $form = $('#searchForm');
-    let spinner = $('#spinner');
-
-    function renderResults(data) {
-      $results.empty().append('<div class="search-section-title">Книги</div>');
-      if (data.success && data.books.length) {
-        data.books.forEach(book => {
-          $results.append(`
-          <div class="search-result-item" data-id="${book.bookID}">
-            <img src="${book.bookCover}" alt="${book.bookTitle}" class="book-image">
-            <div class="book-info">
-              <a href="book-details.php?id=${book.bookID}" class="book-title">${book.bookTitle}</a>
-              <p class="book-author">от ${book.bookAuthor}</p>
-            </div>
-          </div>
-        `);
-        });
-      } else {
-        $results.append(`
-        <div class="spinner-border text-success" id="spinner" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        `);
-        $results.append('<div class="no-results">Няма книги съвпадащи с вашето търсене.</div>');
-      }
-      $results.show();
-    }
-
-    $input.on('input', function () {
-      if (!X) {
-        setTimeout(() => {
-          X = false;
-          const query = $input.val().trim();
-          if (query.length < 2) return $results.hide().empty();
-          $.get('elements/get_search_results.php', { q: query }, renderResults, 'json');
-        }, 2000);
-
-        X = true;
-      }
-
-    });
-
-    $results.on('mousedown', '.search-result-item', function () {
-      window.location = 'book-details.php?id=' + $(this).data('id');
-    });
-
-    $(document).on('mousedown', function (e) {
-      if (!$(e.target).closest('#searchForm').length) $results.hide();
-    });
-
-    $form.on('submit', function (e) {
-      e.preventDefault();
-      $input.trigger('input');
-    });
-  });
-</script>

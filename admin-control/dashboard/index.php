@@ -1,8 +1,9 @@
 <?php
 include("../includes.php");
 // print_r($_SESSION);
+
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION['user']['role'] != 'admin') {
-    echo "<script>alert('Нямате достъп до съдържанието на страницата!'); window.location.href = '../../index.php';</script>";
+    echo "<script>alert('Нямате достъп до съдържанието на страницата!'); window.location.href='". WEBSITE_URL . 'index.php' ."'</script>";
     exit;
 }
 ?>
@@ -177,7 +178,6 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION[
         </div>
     </div>
 
-    <?php include("../includes/footer.php"); ?>
 </body>
 
 </html>
