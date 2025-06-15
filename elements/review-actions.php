@@ -21,16 +21,17 @@
 
 
 <?php
-function deleteReview($reviewId)
-{
-    global $connection;
-    $stmt = $connection->prepare("DELETE FROM Reviews WHERE reviewID = ?");
-    $stmt->execute([$reviewId]);
+if (!function_exists('deleteReview')) {
+    function deleteReview($reviewId)
+    {
+        global $connection;
+        $stmt = $connection->prepare("DELETE FROM Reviews WHERE reviewID = ?");
+        $stmt->execute([$reviewId]);
+    }
 }
 
 if (isset($_POST['delete'])){
     deleteReview(intval($_POST['reviewID']));
     echo "<script>alert('Отзивът беше изтрит успешно!'); window.location.reload();</script>";
 }
-
 ?>

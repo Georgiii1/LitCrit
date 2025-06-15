@@ -216,7 +216,7 @@ $userId = isset($_SESSION['user']['userID']) ? $_SESSION['user']['userID'] : nul
                 data.books.forEach(book => {
                   $results.append(`
                     <div class="search-result-item" data-id="${book.bookID}">
-                      <img src="${book.bookCover}" alt="${book.bookTitle}" class="book-image">
+                      <img src="./images/covers/${book.bookCover}" alt="${book.bookTitle}" class="book-image">
                       <div class="book-info">
                         <a href="book-details.php?id=${book.bookID}" class="book-title">${book.bookTitle}</a>
                         <p class="book-author">от ${book.bookAuthor}</p>

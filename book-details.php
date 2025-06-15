@@ -1,4 +1,4 @@
-<?php include("./database/connection.php") ?>
+<?php include("./admin-control/includes.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ЛитКрит - ЗАГЛАВИЕ</title> <!-- !!! -->
     <link rel="icon" href="pictures/logo-ico.ico" type="image/x-icon">
+    
 
 </head>
 
@@ -34,7 +35,7 @@
 
                 <!-- Left: Book Cover -->
                 <div class="col-4 cover-details">
-                    <img src="<?= htmlspecialchars($book["bookCover"], ENT_QUOTES, 'UTF-8'); ?>" alt="cover"
+                    <img src="<?= COVERS_PATH . htmlspecialchars($book["bookCover"], ENT_QUOTES, 'UTF-8'); ?>" alt="cover"
                         class="img-fluid details-cover-img">
                 </div>
 

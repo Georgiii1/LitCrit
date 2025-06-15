@@ -171,7 +171,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION[
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" style="text-align:center;">No reviews found.</td>
+                    <td colspan="8" style="text-align:center;">Няма намерени отзиви.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

@@ -107,7 +107,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role']) || $_SESSION[
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" style="text-align:center;">No users found.</td>
+                    <td colspan="8" style="text-align:center;">Няма намерени потребители.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
