@@ -14,7 +14,15 @@
 
         <p class="rating-p ">
         <div class="rating rating-div rating-rev-div">
-            <div class="stars-landing" id="stars-box" style="--rating: 3;">⭐⭐⭐⭐⭐</div>
+            <div>
+                <?php $ratingVal = $rev['rating']; ?>
+                <div class="stars-landing" style="--rating: <?= $ratingVal ?>;">
+                    ⭐⭐⭐⭐⭐
+                </div>
+                <span style="margin-left:8px; color:#333; font-size:14px;">
+                    <?= ($ratingVal > 0) ? "{$ratingVal}/5" : "Няма оценка" ?>
+                </span>
+            </div>
         </div>
         </p>
 

@@ -36,6 +36,8 @@ CREATE TABLE Books (
   FOREIGN KEY (bookGenre) REFERENCES genre(genreID),
   FOREIGN KEY (userID) REFERENCES User(userID)
 );
+ALTER table Books add column rating_sum int default 0;
+ALTER table Books add column rating_count int default 0;
 
 -- Create 'Reviews' table
 CREATE TABLE Reviews (
@@ -50,6 +52,10 @@ CREATE TABLE Reviews (
   FOREIGN KEY (userID) REFERENCES User(userID)
 );
 
+ALTER table Reviews add column rating int default null;
+ALTER TABLE Reviews ALTER COLUMN rating SET DEFAULT 0;
+
+
 -- Insert genres
 INSERT INTO genre (genreID, genreOrder, bookGenre) VALUES
   (1, 1, 'Поезия'),
@@ -63,6 +69,7 @@ INSERT INTO genre (genreID, genreOrder, bookGenre) VALUES
   
 select * from User;
 select * from Books;
+select * from Reviews;
 
 
 INSERT INTO Books (bookTitle, bookAuthor, yearOfPublishing, bookGenre, bookAnnotation, bookCover, userID, status) VALUES
@@ -286,4 +293,21 @@ INSERT INTO Reviews (title, review, bookReviewID, userID, status) VALUES
 ('Септември', 'Неуспешен опит за политическа поезия.', 12, 1, 'declined'),
 ('Две песни', 'Твърде кратко и не особено въздействащо.', 13, 1, 'declined');
 
+DELIMITER $$
+CREATE TRIGGER review_approve_update
+AFTER UPDATE ON Reviews
+FOR EACH ROW
+BEGIN
+    IF OLD.status != 'approved' AND NEW.status = 'approved' AND NEW.rating IS NOT NULL THEN
+        UPDATE Books
+        SET rating_sum = rating_sum + NEW.rating,
+            rating_count = rating_count + 1
+        WHERE bookID = NEW.bookReviewID;
+    END IF;
+END $$
+DELIMITER ;
 
+
+
+show triggers;
+DROP TRIGGER IF EXISTS review_approve_update;

@@ -182,7 +182,7 @@ if (isset($_POST['save'])) {
                                         $stmt = $connection->prepare("SELECT * FROM Genre");
                                         $stmt->execute();
                                         $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                        
+
 
 
                                         $userFavouriteGenres = explode(',', $user['favouriteGenre']);
@@ -197,7 +197,8 @@ if (isset($_POST['save'])) {
                                     }
                                     ?>
                                 </div>
-                                <input type="hidden" name="selectedGenres" id="selectedGenres" value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
+                                <input type="hidden" name="selectedGenres" id="selectedGenres"
+                                    value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
                             </div>
 
 
@@ -390,5 +391,4 @@ if (isset($_POST['save'])) {
 
 
 </body>
-
 </html>

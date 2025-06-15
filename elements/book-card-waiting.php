@@ -14,7 +14,7 @@
 
 <p class="rating-p book-rating-p">
     <div class="rating rating-div">  
-        <div class="stars-landing" id="stars-box" style="--rating: 3;">⭐⭐⭐⭐⭐</div>
+        <div class="stars-landing" id="stars-box" style="--rating: 0;">⭐⭐⭐⭐⭐</div>
     </div>
 </p>
 

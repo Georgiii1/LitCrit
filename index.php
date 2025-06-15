@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <?php $data = $connection->query("Select b.*, g.bookGenre from Books b JOIN genre g on b.bookGenre = g.genreID")->fetchAll(); ?>
+        <?php $data = $connection->query("Select b.*, g.bookGenre from Books b JOIN genre g on b.bookGenre = g.genreID ORDER BY b.rating_sum / NULLIF(b.rating_count, 0) DESC")->fetchAll(); ?>
         <div class="row most-popular">
             <div class="col-xl-12">
                 <h2 class="categories-h">Най-популярни</h2>
@@ -121,7 +121,10 @@
         <br>
         <br>
 
-        <?php $data = $connection->query("Select b.*, g.bookGenre from Books b JOIN genre g on b.bookGenre = g.genreID order by bookID desc")->fetchAll(); ?>
+        <?php
+        $data = $connection->query("SELECT b.*, g.bookGenre FROM Books b JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
+        shuffle($data);
+        ?>
         <div class="row suggested">
             <div class="col-xl-12">
                 <h2 class="categories-h">Препоръчани за Вас</h2>

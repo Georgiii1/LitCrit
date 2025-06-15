@@ -20,7 +20,7 @@
 
         <p class="rating-p ">
         <div class="rating rating-div rating-rev-div">
-            <div class="stars-landing" id="stars-box" style="--rating: 3;">⭐⭐⭐⭐⭐</div>
+            <div class="stars-landing" id="stars-box" style="--rating: 0;">⭐⭐⭐⭐⭐</div>
         </div>
         </p>
 

@@ -58,8 +58,6 @@ include("./admin-control/includes.php");
             
             $favGenres = array_map('trim', explode(',', $_SESSION['user']['favouriteGenre']));
             
-
-            
             if ( isset( $_SESSION['user']['favouriteGenre'] ) && strlen( $_SESSION['user']['favouriteGenre'] ) >0 &&   count($favGenres) > 0) { //if > 0
 
                 $placeholders = implode(',', array_fill(0, count($favGenres), '?'));
@@ -69,6 +67,7 @@ include("./admin-control/includes.php");
                     WHERE g.bookGenre IN ($placeholders)");
                 $stmt->execute($favGenres);
                 $data = $stmt->fetchAll();
+                shuffle($data);
             } else {
 
                 echo "<h3 class='no-suggestions'>Няма книги съвпадащи с вашите интереси, или все още не сте избрали предпочитани жанрове в профила си!</h3>";
@@ -77,11 +76,11 @@ include("./admin-control/includes.php");
             JOIN genre g ON b.bookGenre = g.genreID ")->fetchAll();
             }
         } elseif (isset($category) && $category == 'popular') {
-            // Add rating field to the DB after star rating is working, then order by rating !!!!!!!!!!
             $data = $connection->query("
             SELECT b.*, g.bookGenre 
             FROM Books b 
-            JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
+            JOIN genre g ON b.bookGenre = g.genreID 
+            ORDER BY b.rating_sum / NULLIF(b.rating_count, 0) DESC")->fetchAll();
         } else {
             // Default case if no category is set
             $data = [];
