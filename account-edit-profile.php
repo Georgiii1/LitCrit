@@ -392,12 +392,3 @@ if (isset($_POST['save'])) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-db.cars.insertMany([{ _id: ObjectId, brand: "Toyota", model: "Corolla", year: 2020, type: "sedan", fuel: "petrol", transmission: "automatic", color: "white", miliage: 15000, price: 22000, available: "true"}, {_id: ObjectId, brand: "Toyota", model: "Corolla", year: 2020, type: "sedan", fuel: "petrol", transmission: "automatic", color: "white", miliage: 15000, price: 22000, available: "true"
-Atlas atlas-7o8hz2-shard-0 [primary] test> db.cars.insertMany([{ _id: ObjectId, brand: "Toyota", model: "Corolla", year: 2020, type: "sedan", fuel: "petrol", transmission: "automatic", color: "white", miliage: 15000, price: 22000, available: "true"}, {_id: ObjectId, brand: "Volkswagen", model: "Golf", year: 2021, type: "hatchback", fuel:"diesel", transmission: "manual", color: "gray", miliage: 20000, price: 18000, available: true}
