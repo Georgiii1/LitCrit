@@ -8,7 +8,6 @@
 
     <title>ЛитКрит - Начало</title>
     <link rel="icon" href="pictures/logo-ico.ico" type="image/x-icon">
-
 </head>
 
 
@@ -62,7 +61,6 @@
 
 
                     <!-- slider1 : middle -->
-
                     <div id="carousel-popular-middle" class="carousel slide slide-middle">
                         <div class="carousel-inner">
 
@@ -122,9 +120,10 @@
         <br>
 
         <?php
-        $data = $connection->query("SELECT b.*, g.bookGenre FROM Books b JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
-        shuffle($data);
+            $data = $connection->query("SELECT b.*, g.bookGenre FROM Books b JOIN genre g ON b.bookGenre = g.genreID")->fetchAll();
+            shuffle($data);
         ?>
+
         <div class="row suggested">
             <div class="col-xl-12">
                 <h2 class="categories-h">Препоръчани за Вас</h2>
@@ -149,7 +148,6 @@
                     </div>
 
 
-
                     <!-- slider2 : middle -->
                     <div id="carousel-suggested-middle" class="carousel slide slide-middle">
                         <div class="carousel-inner">
@@ -168,7 +166,6 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-
 
 
                     <!-- slider2 : mobile -->
@@ -201,9 +198,10 @@
                 </div>
 
                 <?php
-                } else {
-                    echo "<h3 style='text-align: center;'> Все още няма добавени книги. </h3>";
-                } ?>
+                    } else {
+                        echo "<h3 style='text-align: center;'> Все още няма добавени книги. </h3>";
+                    } 
+                ?>
         </div>
     </div>
 
@@ -217,7 +215,6 @@
             <h2 class="categories-h">Нови</h2>
 
             <!-- slider3 : big -->
-
             <?php if ($data) { ?>
                 <div id="carousel-new" class="carousel slide slide-screen">
                     <div class="carousel-inner">
@@ -232,7 +229,6 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-
 
 
                 <!-- slider3 : middle -->
@@ -282,10 +278,12 @@
                     </a>
                 </div>
             </div>
+
             <?php
-            } else {
-                echo "<h3 style='text-align: center;'> Все още няма добавени книги. </h3>";
-            } ?>
+                } else {
+                    echo "<h3 style='text-align: center;'> Все още няма добавени книги. </h3>";
+                } 
+            ?>
         </div>
     </div>
 
@@ -295,5 +293,4 @@
     </div>
 
 </body>
-
 </html>

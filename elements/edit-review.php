@@ -1,6 +1,7 @@
 <div id="popup" class="popup" style="display:none;">
     <div class="popup-content">
         <span class="close-btn" onclick="togglePopupEdit()">&times;</span>
+
         <h2>Редактирай отзив</h2>
         <form method="post" action="">
             <input type="hidden" name="review_id" value="<?= $rev["reviewID"]; ?>">
@@ -10,5 +11,6 @@
             <br>
             <button type="submit" name="edit" value="save_edit">Запази</button>
         </form>
+        
     </div>
 </div>

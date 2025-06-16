@@ -1,13 +1,11 @@
 <div class="row footer">
    
-  
-<footer class="footer-content">
+  <footer class="footer-content">
 
     <!-- Section: Social media -->
     <section class="social-media-container">
 
       <div class="socials-text">
-        
         <a href="#" class="back-to-top-btn" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Назад">
 
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
@@ -15,7 +13,6 @@
           </svg>
           
         </a>  
-      
         <span class="socials-text-2">Къде можете да ни откриете: </span>
       </div>
   
@@ -36,6 +33,7 @@
        
     </section>
 
+
     <hr>
   
 
@@ -55,33 +53,36 @@
             </h6>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto voluptatem odit beatae cupiditate animi veniam sint officiis atque pariatur aperiam! Ex exercitationem voluptatem labore explicabo neque velit quod quia unde?
+              ЛитКрит е независима платформа за ревюта и оценки на книги. 
+              Събираме мнения, споделяме впечатления и даваме глас на всяка история.
+              Присъедини се към нашата общност и открий следващата си любима книга.
             </p>
           </div>
 
   
 
-        <!-- Contacts -->
+      <!-- Contacts -->
           <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-
             <h6 class="footer-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
-                  </svg>
+                  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                </svg>
                   Контакти
             </h6>
 
             <p>
-    
-              <a href=mailto:“info@example.com” class="fas fa-envelope contacts-icons" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Изпратете съобщение" style= "font-size:12px;">   info@example.com</a>
+              <a href=mailto:“info@example.com” class="fas fa-envelope contacts-icons" data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Изпратете съобщение" style= "font-size:12px;">   
+                LitCrit@example.com
+              </a>
             </p>
 
             <p>
-              <a href=callto:“+ 359 00 000 0000”  class="fas fa-phone contacts-icons " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Обадете се" style="font-size: 12px;">   + 359 00 000 0000</a>
+              <a href=callto:“+ 359 00 000 0000”  class="fas fa-phone contacts-icons " data-bs-custom-class="custom-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Обадете се" style="font-size: 12px;">
+                  + 359 00 000 0000
+              </a>
             </p>
 
           </div>
-
         </div>
 
       </div>
@@ -90,10 +91,12 @@
   
     <!-- Copyright -->
     <div class="copyright-section">
-     © <?php 
-      $year = date('Y');
-      echo $year;
-      ?> Copyright:
+      © 
+      <?php 
+        $year = date('Y');
+        echo $year;
+      ?> 
+      Copyright:
       <a class="copyright-text" href="#">LitCrit.bg</a>
       ® All rights reserved 
     </div>
@@ -104,14 +107,15 @@
 
 
 
-<script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-</script>
+  <!-- Tooltip JS -->
+  <script>
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  </script>
 
 
-   <!-- Profile Picture Upload JS ? --> 
-   <script>
+  <!-- Profile Picture Upload JS --> 
+  <script>
         const imageUpload = document.getElementById('imageUpload');
         const previewImage = document.getElementById('previewImage');
         const dropAreaPFP = document.querySelector('.image-drop-area');
@@ -121,7 +125,6 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                  // alert(1);
                     previewImage.src = e.target.result;
                 };
                 reader.readAsDataURL(file);

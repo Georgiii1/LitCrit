@@ -72,7 +72,7 @@ if (isset($_POST['save'])) {
 
     function displayErrors($errorsArray)
     {
-        ?>
+?>
         <div class="error-messages">
             <ul>
                 <?php foreach ($errorsArray as $error): ?>
@@ -80,7 +80,8 @@ if (isset($_POST['save'])) {
                 <?php endforeach; ?>
             </ul>
         </div>
-        <?php
+
+<?php
     }
 
     if (empty($errorsArray)) {
@@ -97,9 +98,9 @@ if (isset($_POST['save'])) {
     }
 
 }
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,6 +136,8 @@ if (isset($_POST['save'])) {
             list-style: disc inside;
         }
     </style>
+
+
     <div class="container-fluid">
         <?php include("./elements/header.php") ?>
 
@@ -178,39 +181,32 @@ if (isset($_POST['save'])) {
                             <div class="container">
                                 <div class="button-group">
                                     <?php
-                                    try {
-                                        $stmt = $connection->prepare("SELECT * FROM Genre");
-                                        $stmt->execute();
-                                        $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        try {
+                                            $stmt = $connection->prepare("SELECT * FROM Genre");
+                                            $stmt->execute();
+                                            $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-                                        $userFavouriteGenres = explode(',', $user['favouriteGenre']);
+                                            $userFavouriteGenres = explode(',', $user['favouriteGenre']);
 
-                                        foreach ($genres as $genre) {
-                                            $genreName = htmlspecialchars($genre['bookGenre']);
-                                            $isSelected = in_array($genreName, $userFavouriteGenres) ? 'selected' : '';
-                                            echo "<div class='genre-button {$isSelected}' onclick='toggleSelect(this)'>{$genreName}</div>";
+                                            foreach ($genres as $genre) {
+                                                $genreName = htmlspecialchars($genre['bookGenre']);
+                                                $isSelected = in_array($genreName, $userFavouriteGenres) ? 'selected' : '';
+                                                echo "<div class='genre-button {$isSelected}' onclick='toggleSelect(this)'>{$genreName}</div>";
+                                            }
+                                        } catch (PDOException $e) {
+                                            echo "<p>В момента не можем да заредим жанровете. Моля опитайте по-късно.</p>";
                                         }
-                                    } catch (PDOException $e) {
-                                        echo "<p>В момента не можем да заредим жанровете. Моля опитайте по-късно.</p>";
-                                    }
                                     ?>
                                 </div>
                                 <input type="hidden" name="selectedGenres" id="selectedGenres"
                                     value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
                             </div>
-
-
-
-
-
                         </div>
 
+
                         <div class="col-xl-6 col-12 profile-picture edit-picture">
-
-
-
                             <div class="pfp-image-upload">
                                 <input type="file" name="newPfp" id="imageUpload2" accept="image/*" hidden>
                                 <label for="imageUpload2" class="image-drop-area image-drop-area2">
@@ -220,29 +216,27 @@ if (isset($_POST['save'])) {
                             </div>
 
                             <?php
-                            if (!empty($errorsArray)) {
-                                displayErrors($errorsArray);
-                            }
+                                if (!empty($errorsArray)) {
+                                    displayErrors($errorsArray);
+                                }
                             ?>
 
 
                             <div class="edit-btn-container edit-btns-big">
-                                <!-- <a class="edit-profile-btn" name="save" href="account.php">Запази промените</a> -->
                                 <a href="./account.php"><input type="submit" class="edit-profile-btn" name="save"
                                         value="Запази промените"></a>
-
 
                                 <!-- if there are any changes -->
                                 <a class="edit-profile-btn" href="account.php">Назад</a>
                             </div>
                         </div>
 
+
                         <div class="edit-btn-container edit-btns-sm">
                             <a class="edit-profile-btn" href="account.php">Запази промените</a>
                             <!-- if there are any changes -->
                             <a class="edit-profile-btn" href="account.php">Назад</a>
                         </div>
-
 
                     </div>
                 </form>
@@ -256,26 +250,28 @@ if (isset($_POST['save'])) {
 
                 <h2 class="categories-h">Моите отзиви</h2>
 
-
                 <?php
-
-                $stmt = $connection->prepare("SELECT r.*, u.* FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.userID = ? and r.status = 'approved' LIMIT 4");
-                $stmt->execute([$userId]);
-                $reviews = $stmt->fetchAll();
+                    $stmt = $connection->prepare("SELECT r.*, u.* FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.userID = ? and r.status = 'approved' LIMIT 4");
+                    $stmt->execute([$userId]);
+                    $reviews = $stmt->fetchAll();
                 ?>
 
                 <div class="container reviews-container">
-                    <?php foreach ($reviews as $rev) { ?>
+                    <?php 
+                        foreach ($reviews as $rev) { 
+                    ?>
                         <div class="row book-row">
                             <div class="col-12">
                                 <?php include "./elements/review-card.php"; ?>
                             </div>
                         </div>
-                    <?php }
-                    if (empty($reviews)) {
-                        echo "<h3 class='no-reviews'>Нямате одобрени отзиви.</h3>";
-                    } else {
-                        ?>
+
+                    <?php 
+                        }
+                        if (empty($reviews)) {
+                            echo "<h3 class='no-reviews'>Нямате одобрени отзиви.</h3>";
+                        } else {
+                    ?>
                         <div class="row view-more-row">
                             <div class="col-xl-12">
                                 <a href="my-reviews.php">
@@ -283,11 +279,9 @@ if (isset($_POST['save'])) {
                                 </a>
                             </div>
                         </div>
-                        <?php
-                    }
+                    <?php
+                        }
                     ?>
-
-
                 </div>
             </div>
         </div>
@@ -303,21 +297,25 @@ if (isset($_POST['save'])) {
                 <h2 class="categories-h">Моите книги</h2>
 
                 <?php
-                $stmt = $connection->prepare("SELECT b.*, g.bookGenre FROM Books b JOIN genre g ON b.bookGenre = g.genreID WHERE b.userID = ? AND status = 'approved' LIMIT 3");
-                $stmt->execute([$userId]);
-                $data = $stmt->fetchAll();
+                    $stmt = $connection->prepare("SELECT b.*, g.bookGenre FROM Books b JOIN genre g ON b.bookGenre = g.genreID WHERE b.userID = ? AND status = 'approved' LIMIT 3");
+                    $stmt->execute([$userId]);
+                    $data = $stmt->fetchAll();
                 ?>
 
                 <div class="row custom-row">
-                    <?php foreach ($data as $el) { ?>
+                    <?php 
+                        foreach ($data as $el) { 
+                    ?>
                         <div class="col-xl-4 col-sm-6 col-12">
                             <?php include("./elements/book-card.php") ?>
                         </div>
-                    <?php }
-                    if (empty($data)) {
-                        echo "<h3 style='text-align: center;'>Нямате одобрени книги.</h3>";
-                    } else {
-                        ?>
+                    <?php 
+                        }
+                        if (empty($data)) {
+                            echo "<h3 style='text-align: center;'>Нямате одобрени книги.</h3>";
+                        } else {
+                    ?>
+
                         <div class="row view-more-row">
                             <div class="col-xl-12">
                                 <a href="my-books.php">
@@ -325,8 +323,9 @@ if (isset($_POST['save'])) {
                                 </a>
                             </div>
                         </div>
-                        <?php
-                    } ?>
+                    <?php
+                        } 
+                    ?>
 
                 </div>
             </div>
@@ -387,8 +386,6 @@ if (isset($_POST['save'])) {
         });
 
     </script>
-
-
 
 </body>
 </html>

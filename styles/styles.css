@@ -276,6 +276,7 @@ a {
   }
 }
 
+
 /*---- HOME PAGE ----*/
 .motto {
   background-color: #e8ddd4fc;
@@ -584,6 +585,7 @@ a {
   }
 }
 
+
 /* ---- FOOTER ---- */
 .row.footer {
   margin-top: 82px;
@@ -697,6 +699,7 @@ a {
   font-weight: bold;
   color: inherit;
 }
+
 
 /*---- ACCOUNT PAGE ----*/
 
@@ -1168,11 +1171,13 @@ a {
   color: #efeeee;
 }
 
+
 /*-- Custom Tooltip --*/
 .custom-tooltip {
   --bs-tooltip-bg: #d7d7d4 !important;
   --bs-tooltip-color: #000000;
 }
+
 
 /*--- My Books/Reviews ---*/
 .book-row {
@@ -1186,6 +1191,7 @@ a {
 .custom-row {
   margin: 30px;
 }
+
 
 /*---- BOOK DETAILS ---- */
 .book-title {
@@ -1267,6 +1273,7 @@ a {
   margin-bottom: 1rem;
 }
 
+
 /*---- ADD BOOK ----*/
 .PageTitle {
   color: var(--dark-blue);
@@ -1323,6 +1330,7 @@ a {
     width: 100%;
   }
 }
+
 
 /*---- LOG IN/ SIGN UP FORMS ----*/
 
@@ -1489,17 +1497,8 @@ form .change-form-btn:hover {
   text-align: center;
 }
 
-/* 
 
-* {
-    outline: 1px solid red;
-} */
-/* 
-
-*{
-    overflow-x: hidden;
-} */
-
+/* -------------------------------------------- */
 /* ---- Search Results ---- */
 
 .search-result-item {
@@ -1509,7 +1508,6 @@ form .change-form-btn:hover {
   padding: 10px;
   background-color: #f9f9f9;
   width: 100%;
-  /* max-width: 400px; */
 }
 
 .book-image {

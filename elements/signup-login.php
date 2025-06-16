@@ -164,7 +164,7 @@ if (isset($_POST['logIn'])) {
 </div>
 
 
-
+<!-- Sign up/Log in JS -->
 <script>
     function togglePopup() {
         const popup = document.getElementById('loginPopup');
@@ -180,7 +180,3 @@ if (isset($_POST['logIn'])) {
         signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
     }
 </script>
-
-
-
-<!-- onclick="togglePopup()" -->

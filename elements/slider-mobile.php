@@ -1,11 +1,11 @@
 <div class="carousel-item active">
     <!-- slide 1 -->
      
-<div class="row">
-    <div class="col-xl-12 col-sm-12 col-12">
-        <?php $el = $data[0]; include("./elements/book-card.php") ?>
+    <div class="row">
+        <div class="col-xl-12 col-sm-12 col-12">
+            <?php $el = $data[0]; include("./elements/book-card.php") ?>
+        </div>
     </div>
-</div>
 </div>
 
 
@@ -30,6 +30,7 @@
     </div>
 </div>
 
+
 <div class="carousel-item">
     <!-- slide 4 -->
 
@@ -39,6 +40,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="carousel-item">
     <!-- slide 5  -->
@@ -50,6 +52,7 @@
     </div>
 </div>
 
+
 <div class="carousel-item">
     <!-- slide 6 -->
 
@@ -59,6 +62,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="carousel-item">
     <!-- slide 7 -->
@@ -70,6 +74,7 @@
     </div>
 </div>
 
+
 <div class="carousel-item">
     <!-- slide 8 -->
 
@@ -79,6 +84,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="carousel-item">
     <!-- slide 9 -->

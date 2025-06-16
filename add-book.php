@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ЛитКрит - Добави Книга</title>
     <link rel="icon" href="pictures/logo-ico.ico" type="image/x-icon">
-
 </head>
 
 <?php
@@ -106,8 +105,6 @@ if (isset($_POST['submit'])) {
 <body>
 
     <div class="container-fluid">
-
-
 
         <form method="post" enctype="multipart/form-data">
 
@@ -211,9 +208,6 @@ if (isset($_POST['submit'])) {
                                 <a href="my-books.php" class="view-all-btn popup-open-book-btn">Преглед</a>
                             </div>
                         </div>
-
-                        <!-- IF THE BOOK ALREADY EXISTS??! -->
-
                     </div>
 
                 </div>
@@ -225,6 +219,7 @@ if (isset($_POST['submit'])) {
     <?php include("./elements/footer.php") ?>
 
 
+    <!-- Drop Area JS -->
     <script>
         const dropArea = document.getElementById('drop-area');
         const fileInput = document.getElementById('file-input');
@@ -283,10 +278,7 @@ if (isset($_POST['submit'])) {
             const popup = document.getElementById('bookPopup');
             popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
         }
-
     </script>
-    </div>
 
 </body>
-
 </html>

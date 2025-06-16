@@ -7,20 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ЛитКрит - ЗАГЛАВИЕ</title> <!-- !!! -->
     <link rel="icon" href="pictures/logo-ico.ico" type="image/x-icon">
-
-
 </head>
 
 
 <body>
     <div class="container-fluid">
         <?php
-        include("./elements/header.php");
-        $bookID = $_GET['id'];
-        $stmt = $connection->prepare("Select b.*, g.bookGenre from Books b JOIN genre g on b.bookGenre = g.genreID
-        WHERE bookID = ? ");
-        $stmt->execute([$bookID]);
-        $book = $stmt->fetch();
+            include("./elements/header.php");
+
+            $bookID = $_GET['id'];
+            $stmt = $connection->prepare("Select b.*, g.bookGenre from Books b JOIN genre g on b.bookGenre = g.genreID
+            WHERE bookID = ? ");
+            $stmt->execute([$bookID]);
+            $book = $stmt->fetch();
         ?>
 
         <div class="container py-5">
@@ -64,30 +63,30 @@
                     </div>
                     </p>
                 </div>
+
             </div>
         </div>
 
 
         <!-- Input Review -->
         <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-            if (isset($_SESSION['user']['userID'])) {
-                $userID = $_SESSION['user']['userID'];
-            } else {
-                die("Error: За да публикувате коментар, трябва да влезете в профила си.");
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+                if (isset($_SESSION['user']['userID'])) {
+                    $userID = $_SESSION['user']['userID'];
+                } else {
+                    die("Error: За да публикувате коментар, трябва да влезете в профила си.");
+                }
+
+                $bookTitle = $book["bookTitle"];
+                $review_content = $_POST['review'];
+                $rating = isset($_POST['rating']) ? intval($_POST['rating']) : null;
+
+                $sql = "INSERT INTO Reviews (title, review, bookReviewID, userID, dateAdded, rating) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
+                $sth = $connection->prepare($sql);
+                $sth->execute([$bookTitle, $review_content, $bookID, $userID, $rating]);
             }
 
-            $bookTitle = $book["bookTitle"];
-            $review_content = $_POST['review'];
-            $rating = isset($_POST['rating']) ? intval($_POST['rating']) : null;
-
-            $sql = "INSERT INTO Reviews (title, review, bookReviewID, userID, dateAdded, rating) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
-            $sth = $connection->prepare($sql);
-            $sth->execute([$bookTitle, $review_content, $bookID, $userID, $rating]);
-        }
-
-        $tooltip = 'title="За да добавите коментар, трябва да влезете в профила си." data-bs-custom-class="custom-tooltip warrning-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom"';
-
+            $tooltip = 'title="За да добавите коментар, трябва да влезете в профила си." data-bs-custom-class="custom-tooltip warrning-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom"';
         ?>
 
         <div class="tooltip" id="tooltip-template" role="tooltip">
@@ -96,9 +95,9 @@
         </div>
 
         <?php
-        // print_r($book['status']);
-        if ($book['status'] == 'approved') {
-            ?>
+            // print_r($book['status']);
+            if ($book['status'] == 'approved') {
+        ?>
             <form method="POST" action="" <?php if (!isset($_SESSION['user'])) { ?> onsubmit="return false;" <?php } ?>>
                 <div class="container-rev-input">
                     <div class="card review-card input-review <?php if (!isset($_SESSION['user'])) {
@@ -139,10 +138,8 @@
                     </div>
                 </div>
             </form>
-            <?php
-
-        }
-
+        <?php
+            }
         ?>
 
 
@@ -155,21 +152,22 @@
 
                 <div class="reviews-container">
                     <?php
+                        $stmt = $connection->prepare("SELECT r.*, u.username FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.bookReviewID = ? AND r.status = 'approved' order by r.dateAdded DESC");
+                        $stmt->execute([$bookID]);
+                        $reviews = $stmt->fetchAll();
 
-                    $stmt = $connection->prepare("SELECT r.*, u.username FROM Reviews r JOIN User u ON r.userID = u.userID WHERE r.bookReviewID = ? AND r.status = 'approved' order by r.dateAdded DESC");
-                    $stmt->execute([$bookID]);
-                    $reviews = $stmt->fetchAll();
-                    include("./elements/edit-review.php");
-                    foreach ($reviews as $rev) {
-                        
-                        ?>
+                        include("./elements/edit-review.php");
+                        foreach ($reviews as $rev) {  
+                    ?>
                         <!-- review -->
-                        <?php include("./elements/review-card.php") ?>
+                    <?php include("./elements/review-card.php") ?>
+
                     <?php } ?>
+
                     <?php
-                    if (empty($reviews)) {
-                        echo "<h3 style='text-align: center;'>Все още няма отзиви за тази книга.</h3>";
-                    }
+                        if (empty($reviews)) {
+                            echo "<h3 style='text-align: center;'>Все още няма отзиви за тази книга.</h3>";
+                        }
                     ?>
                 </div>
 
@@ -182,5 +180,4 @@
     </div>
 
 </body>
-
 </html>
