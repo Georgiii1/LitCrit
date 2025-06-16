@@ -15,7 +15,7 @@
         <p class="rating-p ">
         <div class="rating rating-div rating-rev-div">
             <div>
-                <?php $ratingVal = $rev['rating']; ?>
+                <?php $ratingVal = $rev['rating'] ?? 0; ?>
                 <div class="stars-landing" style="--rating: <?= $ratingVal ?>;">
                     ⭐⭐⭐⭐⭐
                 </div>
