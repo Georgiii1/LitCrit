@@ -60,9 +60,16 @@ if (isset($_POST['signUp'])) {
     $sql = "INSERT INTO User (username, email, passwordHashed, profilePicture) VALUES (?,?,?,?)";
     $sth = $connection->prepare($sql);
 
+
+
     try {
         $sth->execute([$username, $email, $password, $finalPic]);
-        echo "<script>alert('Профилът беше създаден успешно!');</script>";
+        // echo "<script>alert('Профилът беше създаден успешно!');</script>";
+
+        $lastID = $connection->lastInsertId();
+        $_SESSION['user'] = $_POST;
+        $_SESSION['user']['userID'] = $lastID;
+        header("Location: account.php");
     } catch (PDOException $e) {
         echo "Грешка при създаване на профила: " . $e->getMessage();
     }

@@ -188,7 +188,7 @@ if (isset($_POST['save'])) {
 
 
 
-                                            $userFavouriteGenres = explode(',', $user['favouriteGenre']);
+                                            $userFavouriteGenres = @explode(',', $user['favouriteGenre']);
 
                                             foreach ($genres as $genre) {
                                                 $genreName = htmlspecialchars($genre['bookGenre']);
@@ -201,7 +201,7 @@ if (isset($_POST['save'])) {
                                     ?>
                                 </div>
                                 <input type="hidden" name="selectedGenres" id="selectedGenres"
-                                    value="<?= htmlspecialchars($user['favouriteGenre']); ?>" />
+                                    value="<?= @htmlspecialchars($user['favouriteGenre']); ?>" />
                             </div>
                         </div>
 
@@ -211,7 +211,7 @@ if (isset($_POST['save'])) {
                                 <input type="file" name="newPfp" id="imageUpload2" accept="image/*" hidden>
                                 <label for="imageUpload2" class="image-drop-area image-drop-area2">
                                     <img id="previewImage2" class="edit-image"
-                                        src="images/usersPfp/<?= $user['profilePicture'] ?>" alt="Профилна снимка">
+                                        src="images/usersPfp/<?= $user['profilePicture'] ?? 'default-profile-picture.png' ?>" alt="Профилна снимка">
                                 </label>
                             </div>
 

@@ -41,7 +41,7 @@
                     <div class="container">
                         <div class="button-group button-group2">
                             <?php
-                                $favouriteGenres = ( $user['favouriteGenre'] ? explode(',', $user['favouriteGenre'] ) : array() );
+                                $favouriteGenres = @( $user['favouriteGenre'] ? explode(',', $user['favouriteGenre'] ) : array() );
                                 if ( count( $favouriteGenres ) == 0 ) {
                                     
                                     echo "<h3 class='no-reviews'>Нямате любими жанрове.</h3>";
@@ -62,7 +62,7 @@
                     <?php
                         $profilePicture = isset($user['profilePicture']) && !empty($user['profilePicture']) 
                         ? "images/usersPfp/" . $user['profilePicture'] 
-                        : "images/usersPfp/default.jpg";
+                        : "images/usersPfp/default-profile-picture.png";
                     ?>
                     <img src="<?= $profilePicture ?>" alt="Профилна снимка">
 

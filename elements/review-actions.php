@@ -29,7 +29,7 @@
     <div class="dots-menu">
         <button type="button" class="dots-button">&#x22EE;</button>
         <div class="dropdown-options">
-            <button type="submit" name="edit" value="edit" class="dropdown-option" onclick="togglePopupEdit(); return false;">
+            <button type="submit" name="edit" value="edit" class="dropdown-option" onclick="togglePopupEdit('popup-<?= $rev['reviewID'] ?>'); return false;">
                 Редактирай
             </button>
             <button type="submit" name="delete" value="delete" class="dropdown-option" onclick="return confirmDelete(event);">
@@ -49,8 +49,8 @@
         return true;
     }
 
-    function togglePopupEdit() {
-        const popup = document.getElementById('popup');
+    function togglePopupEdit( id ) {
+        const popup = document.getElementById( id );
         popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
 </script>
